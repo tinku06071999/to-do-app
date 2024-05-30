@@ -24,6 +24,7 @@ Create `.env` file inside `backend` directory and copy the following code
 
 ```
 MONGO_URI=Your mongodb URI
+PORT=3000
 JWT_SECRET=a random secret key eg. hello
 ```
 
