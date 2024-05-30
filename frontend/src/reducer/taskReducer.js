@@ -28,6 +28,8 @@ function taskReducer(tasks, action) {
                 return task
             })
         }
+        
+        
         default: {
             throw Error("Unknown Action" + action.type)
         }

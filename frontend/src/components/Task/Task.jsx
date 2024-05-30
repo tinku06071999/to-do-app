@@ -1,20 +1,35 @@
 import React from 'react';
+import axios from "../../Axios/axios";
 import moment from 'moment';
 import './task.css';
 import { useContext } from 'react';
 import TaskContext from '../../context/TaskContext';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-function Task({ task, id }) {
+function Task({ task, id}) {
     const { dispatch } = useContext(TaskContext);
-
-    const handleRemove = (e) => {
-        e.preventDefault();
-        dispatch({ type: 'REMOVE_TASK', id });
+    const _id = task._id;
+    // console.log(id);
+    const handleRemove = async () => {
+        
+        console.log("ID to remove:", id); // Add this line to log the ID being passed
+        try {
+            const token = localStorage.getItem('token'); // Adjust based on where you store your token
+            console.log(id);
+            await axios.delete(`/task/removeTask/${id}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            
+            dispatch({ type: 'REMOVE_TASK', id  });
+        } catch (error) {
+            console.error('Error deleting task:', error);
+        }
     };
-
     const handleMarkDone = (e) => {
-        dispatch({ type: 'MARK_DONE', id });
+
+        dispatch({ type: 'MARK_DONE', id: task._id });
     };
 
     return (
@@ -42,7 +57,7 @@ function Task({ task, id }) {
             <div className='remove-task'>
                 <DeleteIcon
                     style={{ fontSize: 30, cursor: 'pointer' }}
-                    onClick={handleRemove}
+                    onClick={() => handleRemove(_id)}
                     className='remove-task-btn text-red-500 hover:text-red-700 transition duration-200 ease-in-out'
                     aria-label='Remove task'
                 />

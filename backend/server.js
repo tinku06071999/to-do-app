@@ -9,7 +9,7 @@ import taskRouter from "./routes/taskRoute.js"
 //app config
 dotenv.config()
 const app = express()
-const port = process.env.PORT || 8001
+const port = process.env.PORT || 3001
 mongoose.set('strictQuery', true);
 
 //middlewares
@@ -19,6 +19,7 @@ app.use(cors())
 //db config
 mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
+    useUnifiedTopology: true,
 }, (err) => {
     if (err) {
         console.log(err)
