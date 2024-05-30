@@ -44,4 +44,28 @@ const getTask = (req, res) => {
         .then((data) => res.status(200).json(data))
         .catch((error) => res.status(501).json({ message: error.message }))
 }
-export { addTask, getTask,removeTask }
+
+const updateTask = async (req, res) => {
+    const { id } = req.params;
+    const { completed } = req.body;
+    console.log("ID received for update:", id);
+
+    if (!id) {
+        console.log("Task ID is missing");
+        return res.status(400).json({ message: 'Task ID is required' });
+    }
+
+    try {
+        const task = await taskModel.findByIdAndUpdate(id, { completed }, { new: true });
+        if (!task) {
+            console.log("Task not found with ID:", id);
+            return res.status(404).json({ message: 'Task not found' });
+        }
+        res.status(200).json({ message: "Task updated successfully", task });
+    } catch (error) {
+        console.error('Error updating task:', error);
+        res.status(500).json({ message: error.message });
+    }
+};
+
+export { addTask, getTask,removeTask, updateTask }

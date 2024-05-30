@@ -6,7 +6,7 @@ function Completed() {
     return (
         <div>
             {
-                (tasks.length !== 0) ? (
+                (tasks.length !== 0 ) ? (
                     tasks.map((task, index) => {
                         return (
                             task.completed && <CompletedTask
